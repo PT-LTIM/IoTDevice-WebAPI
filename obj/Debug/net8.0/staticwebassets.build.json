@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "d1C0EDm8cUmjttE0Lv2I6CSr1SjCGNYGFusf6/yfPCU=",
+  "Source": "IoTDeviceWebAPI",
+  "BasePath": "_content/IoTDeviceWebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
