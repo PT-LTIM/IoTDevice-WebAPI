@@ -1,0 +1,10 @@
+- task: AzureRmWebAppDeployment@5
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'npmindtre-1698824506390(4c8aeb33-37f6-47dd-b836-578930a31278)'
+    appType: 'webApp'
+    WebAppName: 'WebApp-IoTDeviceWebAPI'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'PT25June2025RCG'
+    SlotName: 'production'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
