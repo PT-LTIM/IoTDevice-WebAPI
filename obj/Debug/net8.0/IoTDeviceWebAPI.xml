@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IoTDeviceWebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:DevicesController.CreateDevice(DeviceModel)">
+            <summary>
+            Creates a new device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:DevicesController.GetDevice(System.String)">
+            <summary>
+            Get a device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:DevicesController.UpdateDevice(Microsoft.Azure.Devices.Device,System.String)">
+            <summary>
+            Updates a device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:DevicesController.DeleteDevice(System.String)">
+            <summary>
+            Deletes a device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:DevicesController.UpdateDesiredProperties(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Update DesiredProperties of a device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:DevicesController.UpdateReportedProperties(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Update ReportedProperties of a device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:DevicesController.GetReportedProperties(System.String)">
+            <summary>
+            Get ReportedProperties of a device in Azure IoT Hub.
+            </summary>
+        </member>
+        <member name="M:TelemetryController.SendTelemetry(TelemetryModel)">
+            <summary>
+            Sends Telemetry messages to a device in Azure IoT Hub.
+            </summary>
+        </member>
+    </members>
+</doc>
