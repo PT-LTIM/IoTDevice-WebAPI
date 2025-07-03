@@ -1,0 +1,26 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: 'iotdevicewebapi'
+
+steps:
+- task: Docker@2
+  displayName: 'Build Docker image'
+  inputs:
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(imageName):$(Build.BuildId)
+
+- task: Docker@2
+  displayName: 'Push image to Azure Container Registry'
+  inputs:
+    command: 'push'
+    containerRegistry: 'acriotdevicewebapp.azurecr.io'
+    repository: '$(imageName)'
+    tags: |
+      $(Build.BuildId)
