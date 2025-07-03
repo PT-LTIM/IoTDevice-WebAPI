@@ -1,53 +1,3 @@
-<<<<<<< HEAD
-trigger:
-- master  # or your default branch
-
-pool:
-  vmImage: 'windows-latest'
-
-variables:
-  buildConfiguration: 'Release'
-
-steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET SDK'
-  inputs:
-    packageType: 'sdk'
-    version: '7.x.x'  # Replace with your target .NET version
-
-- task: Checkout@1
-  displayName: 'Checkout source code'
-  inputs:
-    fetchDepth: 1
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore NuGet packages'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project'
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Publish the project'
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-=======
 trigger:
 - main  # or your default branch
 
@@ -96,4 +46,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
->>>>>>> origin/master
