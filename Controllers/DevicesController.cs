@@ -76,15 +76,14 @@ public class DevicesController : ControllerBase
     /// <summary>
     /// Update ReportedProperties of a device in Azure IoT Hub.
     /// </summary>
-     [HttpPut("reported/{deviceId}")]
+    [HttpPut("reported/{deviceId}")]
     public async Task<IActionResult> UpdateReportedProperties(string deviceId, [FromBody] Dictionary<string, object> properties)
     {
-        
-         var deviceClient = DeviceClient.CreateFromConnectionString(GetDeviceConnectionString(deviceId).Result, TransportType.Mqtt);
-            TwinCollection reportedProperties = new TwinCollection();
-         foreach (var prop in properties)
+        var deviceClient = DeviceClient.CreateFromConnectionString(GetDeviceConnectionString(deviceId).Result, TransportType.Mqtt);
+        TwinCollection reportedProperties = new TwinCollection();
+        foreach (var prop in properties)
             reportedProperties[prop.Key] = prop.Value;
-            await deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
+        await deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
         return Ok();
     }
 
