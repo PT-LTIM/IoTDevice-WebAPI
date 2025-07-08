@@ -52,5 +52,5 @@ steps:
   inputs:
     azureSubscription: '<Your Azure Service Connection Name>'
     appType: 'webApp'
-    appName: '<Your App Service Name>'
+    appName: 'AS-IotLabApi'
     package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
