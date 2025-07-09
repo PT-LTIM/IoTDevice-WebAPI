@@ -1,14 +1,21 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
+# dokcerfile for Dokcer ACR deployment...
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY . .
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /source
+
+# Copy solution and project files
+COPY *.sln .
+COPY WebApp/*.csproj ./WebApp/
 RUN dotnet restore
-RUN dotnet publish -c Release -o /app/publish
 
-FROM base AS final
+# Copy the rest of the source code and publish
+COPY WebApp/. ./WebApp/
+WORKDIR /source/WebApp
+RUN dotnet publish -c Release -o /app --no-restore
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "IoTDeviceWebAPI.dll"]
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "WebApp.dll"]

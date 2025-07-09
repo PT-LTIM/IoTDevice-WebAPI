@@ -1,56 +1,53 @@
+# pipeline for Dokcer ACR deployment...
+
 trigger:
-- main  # or your default branch
+- main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
-  buildConfiguration: 'Release'
+  imageName: 'webapp'
+  containerRegistry: 'myregistry.azurecr.io'
+  dockerfilePath: 'Dockerfile'
+  buildContext: '.'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET SDK'
-  inputs:
-    packageType: 'sdk'
-    version: '8.0.x'  # Replace with your target .NET version
+- task: DockerInstaller@0
 
-- task: Checkout@1
-  displayName: 'Checkout source code'
-  inputs:
-    fetchDepth: 1
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore NuGet packages'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project'
+- task: Docker@2
+  displayName: 'Build Docker Image'
   inputs:
     command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    dockerfile: '$(dockerfilePath)'
+    buildContext: '$(buildContext)'
+    tags: |
+      $(containerRegistry)/$(imageName):$(Build.BuildId)
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish the project'
+- task: Docker@2
+  displayName: 'Push Docker Image to ACR'
   inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+    command: 'push'
+    tags: |
+      $(containerRegistry)/$(imageName):$(Build.BuildId)
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
+- task: AzureCLI@2
+  displayName: 'Deploy to Azure Container Instance'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
-- task: AzureWebApp@1
-  displayName: 'Deploy to Azure Web App'
-  inputs:
-    azureSubscription: '<Your Azure Service Connection Name>'
-    appType: 'webApp'
-    appName: 'AS-IotLabApi'
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    azureSubscription: 'AzureRM-LAB_ADtoGithub'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az container create \
+        --resource-group myResourceGroup \
+        --name webapp-container \
+        --image $(containerRegistry)/$(imageName):$(Build.BuildId) \
+        --cpu 1 --memory 1.5 \
+        --registry-login-server $(containerRegistry) \
+        --registry-username $(ACR_USERNAME) \
+        --registry-password $(ACR_PASSWORD) \
+        --dns-name-label webapp-aci-$(Build.BuildId) \
+        --ports 80
+    env:
+      ACR_USERNAME: $(acrUsername)
+      ACR_PASSWORD: $(acrPassword)
