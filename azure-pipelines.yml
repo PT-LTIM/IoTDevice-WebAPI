@@ -49,5 +49,5 @@ steps:
         --dns-name-label webapp-aci-$(Build.BuildId) \
         --ports 80
     env:
-      ACR_USERNAME: $(acrUsername)
-      ACR_PASSWORD: $(acrPassword)
+      ACR_USERNAME:$(acrUsername)
+      ACR_PASSWORD:$(acrPassword)
