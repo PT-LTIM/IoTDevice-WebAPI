@@ -4,7 +4,7 @@ WORKDIR /source
 
 # Copy solution and project files
 COPY IoTDeviceWebAPI.sln ./
-COPY IoTDeviceWebAPI/IoTDeviceWebAPI.csproj ./IoTDeviceWebAPI/
+COPY IoTDeviceWebAPI.csproj ./
 
 # Restore dependencies
 RUN dotnet restore
