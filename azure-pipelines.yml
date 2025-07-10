@@ -1,5 +1,3 @@
-# pipeline for Dokcer ACR deployment...
-
 trigger:
 - main
 
@@ -7,13 +5,15 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  imageName: 'webapp'
+  imageName: 'iotdevicewebapi'
   containerRegistry: 'myregistry.azurecr.io'
   dockerfilePath: 'Dockerfile'
   buildContext: '.'
+  environment: 'prod'  # Change to 'staging' or 'prod' as needed
 
 steps:
 - task: DockerInstaller@0
+  displayName: 'Install Docker'
 
 - task: Docker@2
   displayName: 'Build Docker Image'
@@ -23,6 +23,7 @@ steps:
     buildContext: '$(buildContext)'
     tags: |
       $(containerRegistry)/$(imageName):$(Build.BuildId)
+      $(containerRegistry)/$(imageName):$(environment)
 
 - task: Docker@2
   displayName: 'Push Docker Image to ACR'
@@ -30,6 +31,7 @@ steps:
     command: 'push'
     tags: |
       $(containerRegistry)/$(imageName):$(Build.BuildId)
+      $(containerRegistry)/$(imageName):$(environment)
 
 - task: AzureCLI@2
   displayName: 'Deploy to Azure Container Instance'
@@ -40,14 +42,14 @@ steps:
     inlineScript: |
       az container create \
         --resource-group myResourceGroup \
-        --name webapp-container \
-        --image $(containerRegistry)/$(imageName):$(Build.BuildId) \
+        --name iotdevicewebapi-$(environment) \
+        --image $(containerRegistry)/$(imageName):$(environment) \
         --cpu 1 --memory 1.5 \
         --registry-login-server $(containerRegistry) \
         --registry-username $(ACR_USERNAME) \
         --registry-password $(ACR_PASSWORD) \
-        --dns-name-label webapp-aci-$(Build.BuildId) \
+        --dns-name-label iotdevicewebapi-$(environment)-$(Build.BuildId) \
         --ports 80
     env:
-      ACR_USERNAME:$(acrUsername)
-      ACR_PASSWORD:$(acrPassword)
+      ACR_USERNAME: $(acrUsername)
+      ACR_PASSWORD: $(acrPassword)
