@@ -11,7 +11,8 @@
           "Microsoft.AspNetCore.OpenApi": "8.0.17",
           "Microsoft.Azure.Devices": "1.40.0",
           "Microsoft.Azure.Devices.Client": "1.42.3",
-          "Swashbuckle.AspNetCore": "6.6.2"
+          "Swashbuckle.AspNetCore": "6.6.2",
+          "System.Text.Json": "6.0.10"
         },
         "runtime": {
           "IoTDeviceWebAPI.dll": {}
