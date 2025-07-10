@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iotdevicewebapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: iotdevicewebapi
+  template:
+    metadata:
+      labels:
+        app: iotdevicewebapi
+    spec:
+      containers:
+      - name: iotdevicewebapi
+        image: acrforiotlab.azurecr.io/iotdevicewebapi:latest
+        ports:
+        - containerPort: 80
+---
+
