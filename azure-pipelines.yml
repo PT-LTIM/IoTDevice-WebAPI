@@ -33,6 +33,9 @@ steps:
       $(containerRegistry)/$(imageName):$(Build.BuildId)
       $(containerRegistry)/$(imageName):$(environment)
 
+variables:
+- group: ACRSecrets
+
 - task: AzureCLI@2
   displayName: 'Deploy to Azure Container Instance'
   inputs:
@@ -51,5 +54,5 @@ steps:
         --dns-name-label iotdevicewebapi-$(environment)-$(Build.BuildId) \
         --ports 80
     env:
-      ACR_USERNAME: $(acrUsername)
-      ACR_PASSWORD: $(acrPassword)
+      ACR_USERNAME: ${{ variables.acrUsername }}
+      ACR_PASSWORD: ${{ variables.acrPassword }}
