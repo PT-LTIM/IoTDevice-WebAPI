@@ -1,4 +1,3 @@
-Aks cluster: iotdevicewebapi
 apiVersion: v1
 kind: Service
 metadata:
