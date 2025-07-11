@@ -10,7 +10,7 @@ resources:
  
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '2894a9bb-c4da-45ad-ad88-d736a0692ebf'
+  dockerRegistryServiceConnection: '7480002a-f279-42e5-abca-9ffedfb55ee1'
   imageRepository: 'dotnetptiotazurestorage'
   containerRegistry: 'acrforiotlab.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
