@@ -1,13 +1,14 @@
-Aks cluster: iotdevicewebapi
 apiVersion: v1
 kind: Service
 metadata:
-  name: iotdevicewebapi
+  name: iotdeviceapi
 spec:
   type: LoadBalancer
   selector:
-    app: iotdevicewebapi
+    app: iotdeviceapi
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
+
+  
