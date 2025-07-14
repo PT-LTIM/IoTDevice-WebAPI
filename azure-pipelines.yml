@@ -11,12 +11,12 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '95a562e7-b9d1-41d0-a79b-3311ea056a11'
-  imageRepository: 'dotnetpankajiotazurestorage'
+  dockerRegistryServiceConnection: '7480002a-f279-42e5-abca-9ffedfb55ee1'
+  imageRepository: 'ptltimiotdevicewebapi'
   containerRegistry: 'iotdeviceapiacr.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'iotdeviceapiacr820289e6-auth'
+  imagePullSecret: 'iotdeviceapiacr36811920-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -53,7 +53,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'DOTNETPANKAJIOTAzureStorage.default'
+    environment: 'PTLTIMIoTDeviceWebAPI-2121.default'
     strategy:
       runOnce:
         deploy:
@@ -76,6 +76,7 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
+
           - task: CopyFiles@2
             inputs:
               SourceFolder: 'manifests/'
@@ -87,5 +88,4 @@ stages:
               targetPath: '$(Pipeline.Workspace)/manifests'
               artifact: 'manifests'
               publishLocation: 'pipeline'
-      
 
