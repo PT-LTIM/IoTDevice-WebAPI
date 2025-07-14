@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
       - name: iotdeviceapi
-        image: iotdeviceapiacr.azurecr.io/iotdeviceapi:60
+        image: iotdeviceapiacr.azurecr.io/iotdeviceapi:latest
         ports:
         - containerPort: 80
----
+
 
 
 
